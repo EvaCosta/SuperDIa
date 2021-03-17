@@ -14,6 +14,7 @@ public class ProductController {
 		products.add(new Product("Camisa X", "Item da Marca X", 20.50, 70, 30));
 		products.add(new Product("Camisa Y", "Item da Marca X", 40.50, 60, 20));
 		products.add(new Product("Camisa Z", "Item da Marca X", 60.50, 50, 10));
+		
 	}
 
 
@@ -31,14 +32,14 @@ public class ProductController {
 			if(products.get(i).getId().equals(product.getId())) {
 				products.set(i, product);
 				return;
-			}
+			}	
 		}
 				
 	}
 	
 	public void remove(Product product) {
 		for (int i = 0; i<products.size(); i++) {
-			if(products.get(i).getId() == product.getId()) {
+			if(products.get(i).getId().equals(product.getId())) {
 				products.remove(i);
 				return;
 			}

@@ -100,11 +100,16 @@ public class UIPrincipal extends JFrame {
 		getContentPane().add(editarButton, "cell 1 6");
 
 		removerButton = new JButton("Remover");
+		removerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removerButton();
+			}
+		});
 		removerButton.setEnabled(false);
 		getContentPane().add(removerButton, "cell 1 6");
 
 		createAndPopulateTable();
-		refreshTable();
+		
 
 		scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, "cell 1 8,grow");
@@ -118,7 +123,7 @@ public class UIPrincipal extends JFrame {
 		estoqueMinimoSpinner.setMinimumSize(new Dimension(65, 20));
 		getContentPane().add(estoqueMinimoSpinner, "cell 1 3");
 
-		setSize(new Dimension(500, 500));
+		setSize(new Dimension(700, 500));
 		setVisible(true);
 
 	}
@@ -128,7 +133,7 @@ public class UIPrincipal extends JFrame {
 		Object[] columns = new String[] {"ID", "Nome", "Descrição", 
 				"Preço", "Quantidade", "Estoque Mínimo"};
 
-		Object[][] data = new Object[6][controller.getProducts().size()];
+		Object[][] data = new Object[controller.getProducts().size()][6];
 		int i = 0;
 		for (Product product : controller.getProducts()) {
 			data[i++] = new Object[] {
@@ -140,10 +145,19 @@ public class UIPrincipal extends JFrame {
 					product.getEstoqueMinimo()};
 		}
 
-		DefaultTableModel tableModel = new DefaultTableModel(data, columns);
+		DefaultTableModel tableModel = new DefaultTableModel(data, columns) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 
 
 		table = new JTable(tableModel);
+
 
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent event) {
@@ -208,21 +222,33 @@ public class UIPrincipal extends JFrame {
 
 		controller.add(p);
 
+		setFormProduct(null);
+		
 		refreshTable();
 
 	}
 
 	private void editarButton() {
 		Product p = extractProductFromForm();
-		
+
 		if(p == null) return;
 
 		p.setId(selectedProduct.getId());
-		
+
 		controller.update(p);
-		
+
 		setFormProduct(null);
-		
+
+		refreshTable();
+
+	}
+
+	private void removerButton() {
+
+		controller.remove(selectedProduct);
+
+		setFormProduct(null);
+
 		refreshTable();
 
 	}
