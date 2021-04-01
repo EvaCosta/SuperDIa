@@ -91,7 +91,7 @@ public class CarrinhoBean implements ICarrinho{
 		iRegistroVenda.adiciona(registro);
 		
 		carrinho.clear();
-		return false;
+		return true;
 	}
 
 
