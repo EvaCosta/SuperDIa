@@ -41,7 +41,7 @@ public class UILogin extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel = new JLabel("Bem-vindo");
+		JLabel lblNewLabel = new JLabel("Bem-vindo(a)");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(lblNewLabel, BorderLayout.NORTH);
@@ -51,14 +51,17 @@ public class UILogin extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("Login");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_1.setBounds(63, 37, 46, 14);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Senha");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_2.setBounds(63, 72, 46, 14);
 		panel.add(lblNewLabel_2);
 		
 		textField = new JTextField();
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		textField.setBounds(130, 34, 122, 20);
 		panel.add(textField);
 		textField.setColumns(10);
@@ -74,6 +77,7 @@ public class UILogin extends JFrame {
 		});
 		
 		passwordTextField = new JPasswordField();
+		passwordTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		passwordTextField.setBounds(130, 69, 122, 20);
 		
 		passwordTextField.addKeyListener(new KeyAdapter() {
@@ -88,6 +92,7 @@ public class UILogin extends JFrame {
 		panel.add(passwordTextField);
 		
 		JButton btnNewButton = new JButton("Acessar");
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				login();
