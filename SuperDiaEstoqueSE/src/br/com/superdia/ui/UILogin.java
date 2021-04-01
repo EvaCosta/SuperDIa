@@ -15,19 +15,23 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import br.com.superdia.controller.ProductController;
-import br.com.superdia.controller.User;
-import br.com.superdia.controller.UserController;
+import br.com.superdia.controller.ProdutoController;
+import br.com.superdia.controller.Usuario;
+import br.com.superdia.controller.UsuarioController;
+import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class UILogin extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JPasswordField passwordTextField;
 	
-	private UserController userController;
-	private ProductController productController;
+	private UsuarioController userController;
+	private ProdutoController productController;
 	
-	public UILogin(UserController userController, ProductController productController) {
+	public UILogin(UsuarioController userController, ProdutoController productController) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UILogin.class.getResource("/assets/favicon-32x32.png")));
 		
 		this.productController = productController;
 		this.userController = userController;
@@ -59,8 +63,28 @@ public class UILogin extends JFrame {
 		panel.add(textField);
 		textField.setColumns(10);
 		
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					
+					login();
+				}
+			}
+		});
+		
 		passwordTextField = new JPasswordField();
 		passwordTextField.setBounds(130, 69, 122, 20);
+		
+		passwordTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					
+					login();
+				}
+			}
+		});
 		panel.add(passwordTextField);
 		
 		JButton btnNewButton = new JButton("Acessar");
@@ -79,9 +103,9 @@ public class UILogin extends JFrame {
 
 	private void login() {
 		
-		User user = new User();
-		user.setUsername(textField.getText());
-		user.setPassword(String.valueOf(passwordTextField.getPassword()));
+		Usuario user = new Usuario();
+		user.setUsuario(textField.getText());
+		user.setSenha(String.valueOf(passwordTextField.getPassword()));
 		
 		if(userController.login(user)) {
 			new UIPrincipal(productController);

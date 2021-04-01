@@ -17,18 +17,21 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import br.com.superdia.controller.Product;
-import br.com.superdia.controller.ProductController;
+import br.com.superdia.controller.Produto;
+import br.com.superdia.controller.ProdutoController;
 import net.miginfocom.swing.MigLayout;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class UIPrincipal extends JFrame {
 
-	private ProductController controller;
-	private Product selectedProduct;
+	private ProdutoController controller;
+	private Produto selectedProduct;
 
-	public UIPrincipal(ProductController controller) {
+	public UIPrincipal(ProdutoController controller) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UIPrincipal.class.getResource("/assets/favicon-32x32.png")));
 		this.controller = controller;
-		selectedProduct = new Product();
+		selectedProduct = new Produto();
 		buildWindow();
 	}
 
@@ -45,6 +48,7 @@ public class UIPrincipal extends JFrame {
 	private JSpinner quantidadeSpinner;
 	private JLabel lblNewLabel_4;
 	private JSpinner estoqueMinimoSpinner;
+	private JLabel lblImg;
 
 	private void buildWindow() {
 		setLocale(new Locale("pt", "BR"));
@@ -110,6 +114,10 @@ public class UIPrincipal extends JFrame {
 
 		createAndPopulateTable();
 		
+		lblImg = new JLabel("");
+		lblImg.setIcon(new ImageIcon(UIPrincipal.class.getResource("/assets/superdia_logo_alt_2.png")));
+		getContentPane().add(lblImg, "cell 0 8");
+		
 
 		scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, "cell 1 8,grow");
@@ -135,7 +143,7 @@ public class UIPrincipal extends JFrame {
 
 		Object[][] data = new Object[controller.getProducts().size()][6];
 		int i = 0;
-		for (Product product : controller.getProducts()) {
+		for (Produto product : controller.getProducts()) {
 			data[i++] = new Object[] {
 					product.getId(),
 					product.getNome(), 
@@ -201,7 +209,7 @@ public class UIPrincipal extends JFrame {
 			model.removeRow(0);
 		}
 
-		for (Product product : controller.getProducts()) {
+		for (Produto product : controller.getProducts()) {
 			model.addRow( new Object[] {
 					product.getId(),
 					product.getNome(), 
@@ -216,7 +224,7 @@ public class UIPrincipal extends JFrame {
 	}
 
 	private void gravarButton() {
-		Product p = extractProductFromForm();
+		Produto p = extractProductFromForm();
 
 		if(p == null) return;
 
@@ -229,7 +237,7 @@ public class UIPrincipal extends JFrame {
 	}
 
 	private void editarButton() {
-		Product p = extractProductFromForm();
+		Produto p = extractProductFromForm();
 
 		if(p == null) return;
 
@@ -253,9 +261,9 @@ public class UIPrincipal extends JFrame {
 
 	}
 
-	private Product extractProductFromForm() {
+	private Produto extractProductFromForm() {
 
-		Product p = new Product();
+		Produto p = new Produto();
 
 		p.setNome(nomeTextField.getText());
 		p.setDescricao(descricaoTextField.getText());
@@ -272,10 +280,10 @@ public class UIPrincipal extends JFrame {
 		return p;
 	}
 
-	private void setFormProduct(Product p) {
+	private void setFormProduct(Produto p) {
 
 		if(p == null) {
-			p = new Product("", "", 0D, 0, 0);
+			p = new Produto("", "", 0D, 0, 0);
 			editarButton.setEnabled(false);
 			removerButton.setEnabled(false);
 		}
