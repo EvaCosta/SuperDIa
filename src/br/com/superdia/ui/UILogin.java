@@ -29,8 +29,7 @@ public class UILogin extends JDialog {
 	private JLabel lblNewLabel_1;
 	
 	public UILogin() {
-		
-		setIconImage(Toolkit.getDefaultToolkit().getImage(UILogin.class.getResource("/assets/favicons/favicon-32x32.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UILogin.class.getResource(Constants.FAVICON)));
 		setTitle(Constants.LOGIN_TITLE);
 		setSize(new Dimension(364, 356));
 		getContentPane().setLayout(new BorderLayout());
@@ -53,6 +52,7 @@ public class UILogin extends JDialog {
 				signIn();
 			}
 		});
+		
 		btnLogin.setBounds(23, 264, 303, 35);
 		contentPanel.add(btnLogin);
 		getRootPane().setDefaultButton(btnLogin);

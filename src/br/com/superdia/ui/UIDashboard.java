@@ -33,7 +33,7 @@ public class UIDashboard extends JDialog {
 	private JTable table;
 	
 	public UIDashboard(Component parent) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(UILogin.class.getResource("/assets/favicons/favicon-32x32.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UILogin.class.getResource(Constants.FAVICON)));
 		setTitle(Constants.DASHBOARD_TITLE);
 		setSize(new Dimension(754, 487));
 		getContentPane().setLayout(new BorderLayout());
@@ -54,7 +54,7 @@ public class UIDashboard extends JDialog {
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem menuLogout = new JMenuItem(Constants.EXIT);
-		Image scaledIcon = new ImageIcon(UIDashboard.class.getResource("/assets/icons/exit.png")).getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+		Image scaledIcon = new ImageIcon(UIDashboard.class.getResource(Constants.EXIT_IMAGE)).getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
 		menuLogout.setIcon(new ImageIcon(scaledIcon));
 
 		menuLogout.addActionListener(new ActionListener() {	
@@ -70,19 +70,22 @@ public class UIDashboard extends JDialog {
 		menuBar.add(mnNewMenu_1);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem(Constants.REGISTER_PURCHASE);
-		mntmNewMenuItem.setIcon(new ImageIcon(UIDashboard.class.getResource("/assets/icons/cart.png")));
+		mntmNewMenuItem.setIcon(new ImageIcon(UIDashboard.class.getResource(Constants.CART_IMAGE)));
+		mntmNewMenuItem.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				registerNewPruchase();
+			}
+		});
 		mnNewMenu_1.add(mntmNewMenuItem);
 	
-		URL url = SuperDiaCaixa.class.getResource("/assets/logos/superdia_logo_alt_vert.png");
+		URL url = SuperDiaCaixa.class.getResource(Constants.LOGO_ALT_VERTICAL);
 		ImageIcon icon = new ImageIcon(url);
 		lblLogo.setIcon(icon);
-		
-
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(88, 20, 634, 355);
 		contentPanel.add(scrollPane);
-		
 		
 		table = new JTable(dtmPurchases) {
 			private static final long serialVersionUID = 1L;
@@ -103,7 +106,7 @@ public class UIDashboard extends JDialog {
 		setLocationRelativeTo(parent);
 		setVisible(true);
 	}
-	
+
 	private void initTable(DefaultTableModel dtm) {
 		/*
 		List<Musica> playlist = usuarioBean.listarPlaylist();
@@ -124,6 +127,10 @@ public class UIDashboard extends JDialog {
 	private void signOut() {
 		dispose();
 		new UILogin();
+	}
+	
+	private void registerNewPruchase() {
+		new UIRegisterPurchase(this);
 	}
 	
 	private void cleanTable(DefaultTableModel dtm){
