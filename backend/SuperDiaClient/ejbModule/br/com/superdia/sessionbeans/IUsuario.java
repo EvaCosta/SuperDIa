@@ -9,5 +9,6 @@ public interface IUsuario {
 	boolean remove(Usuario usuario);
 	boolean altera(Usuario usuario);
 	List<Usuario> getUsuarios();
+	public Usuario login(Usuario usuario);
 }
  
