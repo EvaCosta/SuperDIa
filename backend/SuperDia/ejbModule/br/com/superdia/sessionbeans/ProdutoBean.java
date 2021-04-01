@@ -3,12 +3,14 @@ package br.com.superdia.sessionbeans;
 import java.util.List;
 
 import javax.ejb.Remote;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
 
 import br.com.superdia.modelo.Produto;
 
+@Stateless
 @Remote(IProduto.class)
 public class ProdutoBean implements IProduto{
 	
@@ -16,27 +18,43 @@ public class ProdutoBean implements IProduto{
 	EntityManager em;
 
 	@Override
-	public void adiciona(Produto produto) {
-		em.persist(produto);
+	public boolean adiciona(Produto produto) {
+		try {
+
+			em.persist(produto);
+			return true;
+		}catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
-	public void remove(Produto produto) {
-		em.remove(em.merge(produto));
+	public boolean remove(Produto produto) {
+		try {
+			em.remove(em.merge(produto));
+			return true;
+		}catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
-	public void altera(Produto produto) {
+	public boolean altera(Produto produto) {
 		em.merge(produto);
+		return true;
 	}
 
 	@Override
 	public List<Produto> getProdutos() {
-		CriteriaQuery<Produto> query = em.getCriteriaBuilder().createQuery(Produto.class);
-		query.select(query.from(Produto.class));
-		
-		List<Produto> list = em.createQuery(query).getResultList();
-		return list;
+		try {
+			CriteriaQuery<Produto> query = em.getCriteriaBuilder().createQuery(Produto.class);
+			query.select(query.from(Produto.class));
+			
+			List<Produto> list = em.createQuery(query).getResultList();
+			return list;
+		}catch (Exception e) {
+			return null;
+		}
 	}
 	
 }

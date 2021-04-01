@@ -5,9 +5,9 @@ import java.util.List;
 import br.com.superdia.modelo.Usuario;
 
 public interface IUsuario {
-	void adiciona(Usuario usuario);
-	void remove(Usuario usuario);
-	void altera(Usuario usuario);
+	boolean adiciona(Usuario usuario);
+	boolean remove(Usuario usuario);
+	boolean altera(Usuario usuario);
 	List<Usuario> getUsuarios();
 }
  
