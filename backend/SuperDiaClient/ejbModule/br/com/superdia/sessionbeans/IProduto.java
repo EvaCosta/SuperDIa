@@ -9,4 +9,5 @@ public interface IProduto {
 	boolean remove(Produto produto);
 	boolean altera(Produto produto);
 	List<Produto> lista();
+	Produto buscaPorId(Long id);
 }

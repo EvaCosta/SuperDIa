@@ -56,5 +56,10 @@ public class ProdutoBean implements IProduto{
 			return null;
 		}
 	}
+
+	@Override
+	public Produto buscaPorId(Long id) {
+		return em.find(Produto.class, id);
+	}
 	
 }
