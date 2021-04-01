@@ -8,7 +8,7 @@ public interface IUsuario {
 	boolean adiciona(Usuario usuario);
 	boolean remove(Usuario usuario);
 	boolean altera(Usuario usuario);
-	List<Usuario> getUsuarios();
+	List<Usuario> lista();
 	public Usuario login(Usuario usuario);
 }
  

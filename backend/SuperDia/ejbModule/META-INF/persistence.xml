@@ -4,6 +4,8 @@
 		<jta-data-source>SuperDiaDS</jta-data-source>
 		<class>br.com.superdia.modelo.Produto</class>
 		<class>br.com.superdia.modelo.Usuario</class>
+		<class>br.com.superdia.modelo.ItemCarrinho</class>
+		<class>br.com.superdia.modelo.RegistroVenda</class>
 		<properties>
 			<property name="javax.persistence.schema-generation.database.action" value="update"/>
 		</properties>

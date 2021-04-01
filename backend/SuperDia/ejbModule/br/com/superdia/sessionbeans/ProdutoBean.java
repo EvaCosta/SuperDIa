@@ -45,7 +45,7 @@ public class ProdutoBean implements IProduto{
 	}
 
 	@Override
-	public List<Produto> getProdutos() {
+	public List<Produto> lista() {
 		try {
 			CriteriaQuery<Produto> query = em.getCriteriaBuilder().createQuery(Produto.class);
 			query.select(query.from(Produto.class));

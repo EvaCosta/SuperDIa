@@ -56,7 +56,7 @@ public class UsuarioBean implements IUsuario{
 	}
 
 	@Override
-	public List<Usuario> getUsuarios() {
+	public List<Usuario> lista() {
 		try {
 			CriteriaQuery<Usuario> query = em.getCriteriaBuilder().createQuery(Usuario.class);
 			query.select(query.from(Usuario.class));

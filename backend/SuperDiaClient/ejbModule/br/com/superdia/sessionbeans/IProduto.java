@@ -8,5 +8,5 @@ public interface IProduto {
 	boolean adiciona(Produto produto);
 	boolean remove(Produto produto);
 	boolean altera(Produto produto);
-	List<Produto> getProdutos();
+	List<Produto> lista();
 }

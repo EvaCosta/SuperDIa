@@ -49,12 +49,17 @@ public class CarrinhoBean implements ICarrinho{
 		}
 		return false;
 	}
-	
+
+	@Override
+	public List<ItemCarrinho> lista() {
+		return carrinho;
+	}
 
 	@Override
 	public boolean finalizaCompra() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }
