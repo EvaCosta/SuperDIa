@@ -4,18 +4,18 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import br.com.superdia.controller.ProductController;
-import br.com.superdia.controller.UserController;
+import br.com.superdia.controller.ProdutoController;
+import br.com.superdia.controller.UsuarioController;
 import br.com.superdia.ui.UILogin;
 
 public class SuperDiaEstoque {
 
-	ProductController productController;
-	UserController userController;
+	ProdutoController productController;
+	UsuarioController userController;
 	
 	public SuperDiaEstoque() {
-		productController = new ProductController();
-		userController = new UserController();
+		productController = new ProdutoController();
+		userController = new UsuarioController();
 	}
 	
 	public static void main(String[] args) {

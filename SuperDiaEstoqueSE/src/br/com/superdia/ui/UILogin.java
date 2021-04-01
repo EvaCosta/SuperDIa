@@ -15,9 +15,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import br.com.superdia.controller.ProductController;
-import br.com.superdia.controller.User;
-import br.com.superdia.controller.UserController;
+import br.com.superdia.controller.ProdutoController;
+import br.com.superdia.controller.Usuario;
+import br.com.superdia.controller.UsuarioController;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -27,10 +27,10 @@ public class UILogin extends JFrame {
 	private JTextField textField;
 	private JPasswordField passwordTextField;
 	
-	private UserController userController;
-	private ProductController productController;
+	private UsuarioController userController;
+	private ProdutoController productController;
 	
-	public UILogin(UserController userController, ProductController productController) {
+	public UILogin(UsuarioController userController, ProdutoController productController) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(UILogin.class.getResource("/assets/favicon-32x32.png")));
 		
 		this.productController = productController;
@@ -103,9 +103,9 @@ public class UILogin extends JFrame {
 
 	private void login() {
 		
-		User user = new User();
-		user.setUsername(textField.getText());
-		user.setPassword(String.valueOf(passwordTextField.getPassword()));
+		Usuario user = new Usuario();
+		user.setUsuario(textField.getText());
+		user.setSenha(String.valueOf(passwordTextField.getPassword()));
 		
 		if(userController.login(user)) {
 			new UIPrincipal(productController);
