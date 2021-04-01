@@ -18,6 +18,9 @@ import javax.swing.SwingConstants;
 import br.com.superdia.controller.ProductController;
 import br.com.superdia.controller.User;
 import br.com.superdia.controller.UserController;
+import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class UILogin extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -28,6 +31,7 @@ public class UILogin extends JFrame {
 	private ProductController productController;
 	
 	public UILogin(UserController userController, ProductController productController) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UILogin.class.getResource("/assets/favicon-32x32.png")));
 		
 		this.productController = productController;
 		this.userController = userController;
@@ -59,8 +63,28 @@ public class UILogin extends JFrame {
 		panel.add(textField);
 		textField.setColumns(10);
 		
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					
+					login();
+				}
+			}
+		});
+		
 		passwordTextField = new JPasswordField();
 		passwordTextField.setBounds(130, 69, 122, 20);
+		
+		passwordTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					
+					login();
+				}
+			}
+		});
 		panel.add(passwordTextField);
 		
 		JButton btnNewButton = new JButton("Acessar");

@@ -20,6 +20,8 @@ import javax.swing.table.DefaultTableModel;
 import br.com.superdia.controller.Product;
 import br.com.superdia.controller.ProductController;
 import net.miginfocom.swing.MigLayout;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class UIPrincipal extends JFrame {
 
@@ -27,6 +29,7 @@ public class UIPrincipal extends JFrame {
 	private Product selectedProduct;
 
 	public UIPrincipal(ProductController controller) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UIPrincipal.class.getResource("/assets/favicon-32x32.png")));
 		this.controller = controller;
 		selectedProduct = new Product();
 		buildWindow();
@@ -45,6 +48,7 @@ public class UIPrincipal extends JFrame {
 	private JSpinner quantidadeSpinner;
 	private JLabel lblNewLabel_4;
 	private JSpinner estoqueMinimoSpinner;
+	private JLabel lblImg;
 
 	private void buildWindow() {
 		setLocale(new Locale("pt", "BR"));
@@ -109,6 +113,10 @@ public class UIPrincipal extends JFrame {
 		getContentPane().add(removerButton, "cell 1 6");
 
 		createAndPopulateTable();
+		
+		lblImg = new JLabel("");
+		lblImg.setIcon(new ImageIcon(UIPrincipal.class.getResource("/assets/superdia_logo_alt_2.png")));
+		getContentPane().add(lblImg, "cell 0 8");
 		
 
 		scrollPane = new JScrollPane();
