@@ -15,6 +15,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import br.com.superdia.SuperDiaCaixa;
+import br.com.superdia.controller.Constants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UILogin extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -26,8 +29,9 @@ public class UILogin extends JDialog {
 	private JLabel lblNewLabel_1;
 	
 	public UILogin() {
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(UILogin.class.getResource("/assets/favicons/favicon-32x32.png")));
-		setTitle("Super Dia Caixa");
+		setTitle(Constants.LOGIN_TITLE);
 		setSize(new Dimension(364, 356));
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -43,10 +47,14 @@ public class UILogin extends JDialog {
 		passwdInput.setBounds(23, 202, 303, 32);
 		contentPanel.add(passwdInput);
 		
-		JButton btnLogin = new JButton("Entrar");
+		JButton btnLogin = new JButton(Constants.BUTTON_SIGN_IN);
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				signIn();
+			}
+		});
 		btnLogin.setBounds(23, 264, 303, 35);
 		contentPanel.add(btnLogin);
-		btnLogin.setActionCommand("OK");
 		getRootPane().setDefaultButton(btnLogin);
 		
 		lblLogo = new JLabel("New label");
@@ -61,18 +69,22 @@ public class UILogin extends JDialog {
 		
 		URL url = SuperDiaCaixa.class.getResource("/assets/logos/superdia_logo.png");
 		ImageIcon icon = new ImageIcon(url);
-		
 		lblLogo.setIcon(icon);
 		
-		lblNewLabel = new JLabel("Login");
+		lblNewLabel = new JLabel(Constants.LABEL_LOGIN);
 		lblNewLabel.setBounds(23, 121, 46, 14);
 		contentPanel.add(lblNewLabel);
 		
-		lblNewLabel_1 = new JLabel("Senha");
+		lblNewLabel_1 = new JLabel(Constants.LABEL_PASSWORD);
 		lblNewLabel_1.setBounds(23, 184, 46, 14);
 		contentPanel.add(lblNewLabel_1);
 		
 		setResizable(false);
 		setVisible(true);
+	}
+
+	private void signIn() {
+		dispose();
+		new UIDashboard(this);
 	}
 }
