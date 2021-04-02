@@ -1,4 +1,4 @@
-package br.com.superdia.manegedbeans;
+package br.com.superdia.mb;
 
 import java.util.List;
 

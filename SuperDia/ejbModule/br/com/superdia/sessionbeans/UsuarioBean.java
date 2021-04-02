@@ -64,8 +64,6 @@ public class UsuarioBean implements IUsuario{
 		
 		List<Usuario> list = em.createQuery(query).getResultList();
 		
-		System.out.println(list.size());
-		
 		for (Usuario user : list) {
 		
 			if(usuario.getUsuario().equals(user.getUsuario()) && usuario.getSenha().equals(user.getSenha())) {
