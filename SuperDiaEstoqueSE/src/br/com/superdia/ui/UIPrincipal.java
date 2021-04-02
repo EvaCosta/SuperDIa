@@ -1,13 +1,10 @@
 package br.com.superdia.ui;
 
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,19 +17,18 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import br.com.superdia.controller.Produto;
-import br.com.superdia.controller.ProdutoController;
+import br.com.superdia.controller.Product;
+import br.com.superdia.controller.ProductController;
 import net.miginfocom.swing.MigLayout;
 
 public class UIPrincipal extends JFrame {
 
-	private ProdutoController controller;
-	private Produto selectedProduct;
+	private ProductController controller;
+	private Product selectedProduct;
 
-	public UIPrincipal(ProdutoController controller) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(UIPrincipal.class.getResource("/assets/favicon-32x32.png")));
+	public UIPrincipal(ProductController controller) {
 		this.controller = controller;
-		selectedProduct = new Produto();
+		selectedProduct = new Product();
 		buildWindow();
 	}
 
@@ -49,7 +45,6 @@ public class UIPrincipal extends JFrame {
 	private JSpinner quantidadeSpinner;
 	private JLabel lblNewLabel_4;
 	private JSpinner estoqueMinimoSpinner;
-	private JLabel lblImg;
 
 	private void buildWindow() {
 		setLocale(new Locale("pt", "BR"));
@@ -59,44 +54,34 @@ public class UIPrincipal extends JFrame {
 		getContentPane().setLayout(new MigLayout("", "[][grow]", "[][][][][][][][][grow]"));
 
 		JLabel lblNewLabel = new JLabel("Nome");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		getContentPane().add(lblNewLabel, "cell 0 0,alignx trailing");
 
 		nomeTextField = new JTextField();
-		nomeTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		getContentPane().add(nomeTextField, "cell 1 0,growx");
 		nomeTextField.setColumns(10);
 
 		JLabel lblNewLabel_1 = new JLabel("Descri\u00E7\u00E3o");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		getContentPane().add(lblNewLabel_1, "cell 0 1,alignx trailing");
 
 		descricaoTextField = new JTextField();
-		descricaoTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		getContentPane().add(descricaoTextField, "cell 1 1,growx");
 		descricaoTextField.setColumns(10);
 
 		JLabel lblNewLabel_2 = new JLabel("Pre\u00E7o");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		getContentPane().add(lblNewLabel_2, "cell 0 2,alignx trailing");
 
 		precoTextField = new JTextField();
-		precoTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		getContentPane().add(precoTextField, "cell 1 2,growx");
 		precoTextField.setColumns(10);
 
 		lblNewLabel_3 = new JLabel("Quantidade");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		getContentPane().add(lblNewLabel_3, "cell 0 3,alignx right");
+		getContentPane().add(lblNewLabel_3, "cell 0 3");
 
 		quantidadeSpinner = new JSpinner();
-		quantidadeSpinner.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		quantidadeSpinner.setMinimumSize(new Dimension(65, 20));
 		getContentPane().add(quantidadeSpinner, "flowx,cell 1 3");
 
-		gravarButton = new JButton("Adicionar Novo");
-		gravarButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		gravarButton.setToolTipText("Adiciona um novo produto");
+		gravarButton = new JButton("Adicionar");
 		gravarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				gravarButton();
@@ -105,9 +90,7 @@ public class UIPrincipal extends JFrame {
 
 		getContentPane().add(gravarButton, "flowx,cell 1 6");
 
-		editarButton = new JButton("Editar ");
-		editarButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		editarButton.setToolTipText("Grava as altera\u00E7\u00F5es do produto selecionado");
+		editarButton = new JButton("Editar");
 		editarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editarButton();
@@ -117,8 +100,6 @@ public class UIPrincipal extends JFrame {
 		getContentPane().add(editarButton, "cell 1 6");
 
 		removerButton = new JButton("Remover");
-		removerButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		removerButton.setToolTipText("Remove o produto selecionado");
 		removerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removerButton();
@@ -129,10 +110,6 @@ public class UIPrincipal extends JFrame {
 
 		createAndPopulateTable();
 		
-		lblImg = new JLabel("");
-		lblImg.setIcon(new ImageIcon(UIPrincipal.class.getResource("/assets/superdia_logo_alt_2.png")));
-		getContentPane().add(lblImg, "cell 0 8");
-		
 
 		scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, "cell 1 8,grow");
@@ -140,11 +117,9 @@ public class UIPrincipal extends JFrame {
 		scrollPane.setViewportView(table);
 
 		lblNewLabel_4 = new JLabel("Estoque M\u00EDnimo");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		getContentPane().add(lblNewLabel_4, "cell 1 3");
 
 		estoqueMinimoSpinner = new JSpinner();
-		estoqueMinimoSpinner.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		estoqueMinimoSpinner.setMinimumSize(new Dimension(65, 20));
 		getContentPane().add(estoqueMinimoSpinner, "cell 1 3");
 
@@ -160,7 +135,7 @@ public class UIPrincipal extends JFrame {
 
 		Object[][] data = new Object[controller.getProducts().size()][6];
 		int i = 0;
-		for (Produto product : controller.getProducts()) {
+		for (Product product : controller.getProducts()) {
 			data[i++] = new Object[] {
 					product.getId(),
 					product.getNome(), 
@@ -182,7 +157,6 @@ public class UIPrincipal extends JFrame {
 
 
 		table = new JTable(tableModel);
-		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
 
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
@@ -194,7 +168,6 @@ public class UIPrincipal extends JFrame {
 
 				editarButton.setEnabled(true);
 				removerButton.setEnabled(true);
-				
 
 				selectedProduct.setId(
 						Long.parseLong(table.getValueAt(table.getSelectedRow(), 0).toString()));
@@ -228,7 +201,7 @@ public class UIPrincipal extends JFrame {
 			model.removeRow(0);
 		}
 
-		for (Produto product : controller.getProducts()) {
+		for (Product product : controller.getProducts()) {
 			model.addRow( new Object[] {
 					product.getId(),
 					product.getNome(), 
@@ -243,7 +216,7 @@ public class UIPrincipal extends JFrame {
 	}
 
 	private void gravarButton() {
-		Produto p = extractProductFromForm();
+		Product p = extractProductFromForm();
 
 		if(p == null) return;
 
@@ -256,7 +229,7 @@ public class UIPrincipal extends JFrame {
 	}
 
 	private void editarButton() {
-		Produto p = extractProductFromForm();
+		Product p = extractProductFromForm();
 
 		if(p == null) return;
 
@@ -280,9 +253,9 @@ public class UIPrincipal extends JFrame {
 
 	}
 
-	private Produto extractProductFromForm() {
+	private Product extractProductFromForm() {
 
-		Produto p = new Produto();
+		Product p = new Product();
 
 		p.setNome(nomeTextField.getText());
 		p.setDescricao(descricaoTextField.getText());
@@ -299,10 +272,10 @@ public class UIPrincipal extends JFrame {
 		return p;
 	}
 
-	private void setFormProduct(Produto p) {
+	private void setFormProduct(Product p) {
 
 		if(p == null) {
-			p = new Produto("", "", 0D, 0, 0);
+			p = new Product("", "", 0D, 0, 0);
 			editarButton.setEnabled(false);
 			removerButton.setEnabled(false);
 		}
