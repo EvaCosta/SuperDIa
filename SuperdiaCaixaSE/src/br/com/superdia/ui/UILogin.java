@@ -3,8 +3,12 @@ package br.com.superdia.ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
+import javax.naming.NamingException;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -12,12 +16,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import br.com.superdia.SuperDiaCaixa;
 import br.com.superdia.controller.Constants;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import br.com.superdia.controller.Messages;
+import br.com.superdia.controller.Singleton;
+import br.com.superdia.es.PopupMessage;
+import br.com.superdia.modelo.Usuario;
+import br.com.superdia.sessionbeans.IUsuario;
+import java.awt.Color;
 
 public class UILogin extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -27,23 +36,24 @@ public class UILogin extends JDialog {
 	private JTextField loginInput;
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
+	private JLabel lblError;
 	
 	public UILogin() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(UILogin.class.getResource(Constants.FAVICON)));
 		setTitle(Constants.LOGIN_TITLE);
-		setSize(new Dimension(364, 356));
+		setSize(new Dimension(402, 356));
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
 		loginInput = new JTextField();
-		loginInput.setBounds(23, 141, 303, 32);
+		loginInput.setBounds(23, 141, 345, 32);
 		contentPanel.add(loginInput);
 		loginInput.setColumns(10);
 		
 		passwdInput = new JPasswordField();
-		passwdInput.setBounds(23, 202, 303, 32);
+		passwdInput.setBounds(23, 202, 345, 32);
 		contentPanel.add(passwdInput);
 		
 		JButton btnLogin = new JButton(Constants.BUTTON_SIGN_IN);
@@ -53,12 +63,12 @@ public class UILogin extends JDialog {
 			}
 		});
 		
-		btnLogin.setBounds(23, 264, 303, 35);
+		btnLogin.setBounds(23, 264, 345, 35);
 		contentPanel.add(btnLogin);
 		getRootPane().setDefaultButton(btnLogin);
 		
 		lblLogo = new JLabel("New label");
-		lblLogo.setBounds(23, 11, 303, 99);
+		lblLogo.setBounds(45, 11, 303, 99);
 		contentPanel.add(lblLogo);
 		
 		final Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -67,7 +77,7 @@ public class UILogin extends JDialog {
 		final int y = (screenSize.height - getHeight()) / 2;
 		setLocation(x, y);
 		
-		URL url = SuperDiaCaixa.class.getResource("/assets/logos/superdia_logo.png");
+		URL url = SuperDiaCaixa.class.getResource(Constants.LOGO);
 		ImageIcon icon = new ImageIcon(url);
 		lblLogo.setIcon(icon);
 		
@@ -79,12 +89,37 @@ public class UILogin extends JDialog {
 		lblNewLabel_1.setBounds(23, 184, 46, 14);
 		contentPanel.add(lblNewLabel_1);
 		
+		lblError = new JLabel("");
+		lblError.setForeground(Color.RED);
+		lblError.setBounds(23, 239, 345, 14);
+		lblError.setHorizontalAlignment(SwingConstants.CENTER);
+		contentPanel.add(lblError);
+		
 		setResizable(false);
 		setVisible(true);
 	}
 
 	private void signIn() {
-		dispose();
-		new UIDashboard(this);
+		lblError.setText("");
+		try {
+			IUsuario usuarioBean = Singleton.getIUsuario();
+			Usuario user = new Usuario();
+		
+			user.setUsuario(loginInput.getText());
+			user.setSenha(new String(passwdInput.getPassword()).trim());
+			
+			user = usuarioBean.login(user);
+			
+			if(user != null && user.getPerfil().equalsIgnoreCase("caixa")) {				
+				dispose();
+				new UIDashboard(this);
+			} else {
+				lblError.setText(Messages.ERROR_LOGIN_MESSAGE);
+				//PopupMessage.messageError(Messages.ERROR_LOGIN_MESSAGE, Constants.LOGIN_TITLE);
+			}
+		} catch (NamingException e) {
+			PopupMessage.messageError(Messages.ERROR_LOGIN_EJB, Constants.LOGIN_TITLE);
+			e.printStackTrace();
+		}
 	}
 }
