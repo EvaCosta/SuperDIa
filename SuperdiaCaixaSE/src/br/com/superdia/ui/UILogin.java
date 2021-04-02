@@ -24,8 +24,9 @@ import br.com.superdia.controller.Constants;
 import br.com.superdia.controller.Messages;
 import br.com.superdia.controller.Singleton;
 import br.com.superdia.es.PopupMessage;
+import br.com.superdia.modelo.PerfilUsuario;
 import br.com.superdia.modelo.Usuario;
-import br.com.superdia.sessionbeans.IUsuario;
+import br.com.superdia.sessionbeans.IServicosCliente;
 
 public class UILogin extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -101,17 +102,17 @@ public class UILogin extends JDialog {
 	private void signIn() {
 		lblError.setText("");
 		try {
-			IUsuario userBean = Singleton.getIUsuario();
+			IServicosCliente serivcesClientBean = Singleton.getIServicosCliente();
 			Usuario user = new Usuario();
 		
 			user.setUsuario(loginInput.getText());
 			user.setSenha(new String(passwdInput.getPassword()).trim());
 			
-			user = userBean.login(user);
+			user = serivcesClientBean.autentica(user);
 			
-			if(user != null && user.getPerfil().equalsIgnoreCase("caixa")) {				
+			if(user != null && user.getPerfil() == PerfilUsuario.CAIXA) {				
 				dispose();
-				new UIDashboard(this);
+				new UIRegisterPurchase(this);
 			} else {
 				lblError.setText(Messages.ERROR_LOGIN_MESSAGE);
 				//PopupMessage.messageError(Messages.ERROR_LOGIN_MESSAGE, Constants.LOGIN_TITLE);

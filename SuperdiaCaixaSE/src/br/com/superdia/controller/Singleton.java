@@ -3,13 +3,11 @@ package br.com.superdia.controller;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import br.com.superdia.sessionbeans.ICarrinho;
-import br.com.superdia.sessionbeans.IProduto;
-import br.com.superdia.sessionbeans.IRegistroVenda;
-import br.com.superdia.sessionbeans.IUsuario;
+import br.com.superdia.sessionbeans.IServicosCliente;
 
 public class Singleton {
 	private static InitialContext ic;
+	private static IServicosCliente iServicesClient;
 
 	public static InitialContext getInitialContext() {
 		return ic;
@@ -19,19 +17,8 @@ public class Singleton {
 		Singleton.ic = ic;
 	}
 	
-	public static IUsuario getIUsuario() throws NamingException {
-		return (IUsuario) ic.lookup(Constants.EJB_LOOKUP_USER);
-	}
-	
-	public static IProduto getIProduto() throws NamingException {
-		return (IProduto) ic.lookup(Constants.EJB_LOOKUP_PRODUCT);
-	}
-	
-	public static ICarrinho getICarrinho() throws NamingException {
-		return (ICarrinho) ic.lookup(Constants.EJB_LOOKUP_CART);
-	}
-	
-	public static IRegistroVenda getIRegistroVenda() throws NamingException {
-		return (IRegistroVenda) ic.lookup(Constants.EJB_LOOKUP_REGISTER_PURCHASE);
+	public static IServicosCliente getIServicosCliente() throws NamingException {
+		iServicesClient = (iServicesClient != null) ? iServicesClient : (IServicosCliente) ic.lookup(Constants.EJB_LOOKUP_SERVICE_CLIENT);
+		return iServicesClient;
 	}
 }
