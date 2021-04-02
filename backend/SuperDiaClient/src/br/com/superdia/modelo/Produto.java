@@ -7,7 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 @Entity
 public class Produto implements Serializable{
 	/**
@@ -27,19 +29,6 @@ public class Produto implements Serializable{
 	private Double preco;
 	private Integer estoqueMinimo;
 	private Integer quantidadeEstoque;
-	private Long idLoja = 0L;
-	private Long idExterno = null;
-	
-	public Produto() {}
-	
-	public Produto(String nome, String descricao, Double preco, Long idLoja, Long idExterno) {
-		this.nome = nome;
-		this.descricao = descricao;
-		this.preco = preco;
-		this.quantidadeEstoque = 0;
-		this.estoqueMinimo = 0;
-		this.idLoja = idLoja;
-	}
 	
 	public Long getId() {
 		return id;
