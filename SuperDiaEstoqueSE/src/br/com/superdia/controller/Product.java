@@ -2,7 +2,7 @@ package br.com.superdia.controller;
 
 import java.util.Calendar;
 
-public class Produto {
+public class Product {
 	private Long id;
 	private String nome;
 	private String descricao;
@@ -12,10 +12,10 @@ public class Produto {
 
 	
 	
-	public Produto() {
+	public Product() {
 	}
 
-	public Produto(String nome, String descricao, Double preco, Integer quantidade, 
+	public Product(String nome, String descricao, Double preco, Integer quantidade, 
 			Integer estoqueMinimo) {
 		this.id = (long) (Calendar.getInstance().get(Calendar.MILLISECOND) * preco * quantidade);
 		this.nome = nome;
