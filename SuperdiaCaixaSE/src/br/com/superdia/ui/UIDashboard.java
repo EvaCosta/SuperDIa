@@ -105,7 +105,7 @@ public class UIDashboard extends JDialog {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(table);
 		
-		JButton btnPurchaseView = new JButton("Visualizar compra");
+		JButton btnPurchaseView = new JButton(Constants.SEE_PURCHASE);
 		btnPurchaseView.setBounds(591, 386, 131, 28);
 		contentPanel.add(btnPurchaseView);
 	

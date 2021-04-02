@@ -20,10 +20,6 @@ public class PopupMessage {
 	}
 	
 	public static int questionConfirmationDialog(String message, String title) {
-		return showConfirmDialog(null, message, title, QUESTION_MESSAGE);
-	}
-	
-	public static int warningConfirmationDialog(String message, String title) {
-		return showConfirmDialog(null, message, title, WARNING_MESSAGE);
+		return showConfirmDialog(null, message, title, YES_NO_OPTION);
 	}
 }

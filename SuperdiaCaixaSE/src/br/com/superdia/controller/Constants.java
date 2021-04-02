@@ -35,6 +35,7 @@ public class Constants {
 	public static final String EXIT = "Sair";
 	public static final String SUPER_DIA_MENU = "Superdia";
 	public static final String REGISTER_PURCHASE = "Cadastrar compra";
+	public static final String SEE_PURCHASE = "Visualizar compra";
 	
 	// REGISTER PURCHASE
 	public static final String[] COLUMNS_PRODUCTS_AVAILABLE_TABLE = {"ID", "Produto", "Descrição", "Quantidade", "Quantidade em Estoque", "Preço"};
@@ -42,7 +43,7 @@ public class Constants {
 	public static final String ADD_CART = "Adicionar";
 	public static final String AVAILABLE_PRODUCTS = "Produtos disponíveis";
 	public static final String SAVE_PURCHASE = "Registrar compra";
-	public static final String BACK_DASHBOARD = "Voltar";
+	public static final String BACK_DASHBOARD = "Cancelar";
 	public static final String PRODUCTS_ON_CART = "Produtos no carrinho";
 	public static final String SELECTED_PRODUCT = "Produto selecionado";
 } 

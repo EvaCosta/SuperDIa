@@ -6,5 +6,9 @@ public class Messages {
 	public static final String ERROR_LOGIN_EJB = "Ocorreu uma falha critica no login. Por favor, reporte o problema para a equipe de TI.";
 	
 	// DASHBOARD ERRORS
-	public static final String ERROR_LOAD_REGISTERS_PURCHASE = "Ocorreu um problema ao tentar carregar os registros de compras.";	
+	public static final String ERROR_LOAD_REGISTERS_PURCHASE = "Ocorreu um problema ao tentar carregar os registros de compras.";
+	
+	// REGISTER PURCHASE ERRORS
+	public static final String ERROR_REGISTER_PURCHASE_EJB = "Ocorreu um problema ao tentar carregar Produtos/Carrinho.";
+	public static final String CONFIRMATION_CANCEL_PURCHASE = "Deseja realmente cancelar essa compra?";
 }

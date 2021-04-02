@@ -1,28 +1,37 @@
 package br.com.superdia.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import br.com.superdia.controller.Constants;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
-import java.awt.Color;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.JLabel;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-import javax.swing.JSpinner;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+
+import br.com.superdia.controller.Constants;
+import br.com.superdia.controller.Messages;
+import br.com.superdia.controller.Singleton;
+import br.com.superdia.es.PopupMessage;
+import br.com.superdia.modelo.ItemCarrinho;
+import br.com.superdia.sessionbeans.ICarrinho;
+import br.com.superdia.sessionbeans.IProduto;
 
 public class UIRegisterPurchase extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -30,8 +39,14 @@ public class UIRegisterPurchase extends JDialog {
 	private JTable jtProducts;
 	private JTextField tfSelected;
 	private JTable jtCart;
+	private IProduto productBean;
+	private ICarrinho cartBean;
+	private JSpinner spinnerAmount;
+	private SpinnerModel spinnerAmountModel;
 	
 	public UIRegisterPurchase(Component parent) {
+		tryLoadEJB();
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(UILogin.class.getResource(Constants.FAVICON)));
 		setTitle(Constants.REGISTER_PURCHASE_TITLE);
 		setSize(new Dimension(727, 650));
@@ -84,7 +99,8 @@ public class UIRegisterPurchase extends JDialog {
 		lblNewLabel.setBounds(485, 28, 25, 14);
 		panel_2.add(lblNewLabel);
 		
-		JSpinner spinnerAmount = new JSpinner();
+		spinnerAmountModel = new SpinnerNumberModel(0, 0, 10, 1);
+		spinnerAmount = new JSpinner(spinnerAmountModel);
 		spinnerAmount.setBounds(506, 21, 70, 28);
 		panel_2.add(spinnerAmount);
 		
@@ -108,6 +124,9 @@ public class UIRegisterPurchase extends JDialog {
 		});
 		buttonPane.add(btnCancel);
 		
+		
+		spinnerAmountModel = new SpinnerNumberModel(0, 0, 30, 1);
+		spinnerAmount.setModel(spinnerAmountModel);
 		setModal(true);
 		setLocationRelativeTo(parent);
 		setResizable(false);
@@ -115,6 +134,22 @@ public class UIRegisterPurchase extends JDialog {
 	}
 
 	private void cancel() {
-		dispose();
+		int confirmation = PopupMessage.questionConfirmationDialog(Messages.CONFIRMATION_CANCEL_PURCHASE, Constants.REGISTER_PURCHASE_TITLE);
+		if(confirmation == 0) {
+			List<ItemCarrinho> itensCart = cartBean.lista(); 
+			for (int i = 0; i < itensCart.size(); i++) cartBean.remove(itensCart.get(i));
+			dispose();
+		}
+	}
+	
+	private void tryLoadEJB() {
+		try {
+			productBean = Singleton.getIProduto();
+			cartBean = Singleton.getICarrinho();
+		} catch (Exception e) {
+			e.printStackTrace();
+			PopupMessage.messageError(Messages.ERROR_REGISTER_PURCHASE_EJB, Constants.REGISTER_PURCHASE);
+			dispose();
+		}		
 	}
 }
