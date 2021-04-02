@@ -19,20 +19,8 @@ public class UsuarioBean implements IUsuario{
 	EntityManager em;
 
 	@Override
-	public boolean adiciona(Usuario usuario) {
-		try {
-			Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.usuario = :pUsuario");
-			q.setParameter("pUsuario", usuario.getUsuario());
-			Usuario usuarioExistente = (Usuario) q.getSingleResult();
-			if(usuarioExistente == null) {
-				em.persist(usuario);
-				return true;
-			}else {
-				return false;
-			}
-		}catch (Exception e) {
-			return false;
-		}
+	public void adiciona(Usuario usuario) {
+		em.persist(usuario);
 	}
 
 	@Override
@@ -70,15 +58,21 @@ public class UsuarioBean implements IUsuario{
 	
 	@Override
 	public Usuario login(Usuario usuario) {
-		Query query = em.createQuery("from Usuario u where u.usuario = :pUsuario and u.senha = :pSenha");
-		query.setParameter("pUsuario", usuario.getUsuario());
-		query.setParameter("pSenha", usuario.getSenha());
-		try {
-			Usuario usuarioLogado = (Usuario) query.getSingleResult();
-			return usuarioLogado;
-		}catch (Exception e) {
-			return null;
-		}
+		CriteriaQuery<Usuario> query = em.getCriteriaBuilder().createQuery(Usuario.class);
+		
+		query.select(query.from(Usuario.class));
+		
+		List<Usuario> list = em.createQuery(query).getResultList();
+		
+		System.out.println(list.size());
+		
+		for (Usuario user : list) {
+		
+			if(usuario.getUsuario().equals(user.getUsuario()) && usuario.getSenha().equals(user.getSenha())) {
+				return user;
+			}
+		}		
+		return null;
 	}
 	
 }

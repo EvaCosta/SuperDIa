@@ -8,6 +8,8 @@ import javax.ejb.Remote;
 import javax.ejb.Stateful;
 
 import br.com.superdia.modelo.ItemCarrinho;
+import br.com.superdia.modelo.Produto;
+import br.com.superdia.modelo.RegistroVenda;
 import br.com.superdia.modelo.Usuario;
 
 @Stateful
@@ -19,8 +21,8 @@ public class CarrinhoBean implements ICarrinho{
 	@EJB
 	IProduto iProduto;
 	
-	//@EJB
-	//IRegistroVenda iRegistroVenda;
+/*	@EJB
+	IRegistroVenda iRegistroVenda; */
 	
 	@Override
 	public boolean adiciona(ItemCarrinho item) {
@@ -65,30 +67,6 @@ public class CarrinhoBean implements ICarrinho{
 
 	@Override
 	public boolean finalizaCompra(Usuario usuario) {
-		/*
-		//Verifica se todos os itens tem a quantidade necessária em estoque
-		for(ItemCarrinho item: carrinho) {
-			Produto produto = iProduto.buscaPorId(item.getProduto().getId());
-			if(produto.getQuantidadeEstoque() < item.getQuantidade()) {
-				return false;
-			}
-		}
-		
-		//Subtrai cada item no carrinho do estoque
-		for(ItemCarrinho item: carrinho) {
-			Produto produto = iProduto.buscaPorId(item.getProduto().getId());
-			Integer quantidadeEmEstoque = produto.getQuantidadeEstoque();
-			produto.setQuantidadeEstoque(quantidadeEmEstoque - item.getQuantidade());
-			iProduto.altera(produto);
-		}
-		
-		RegistroVenda registro = new RegistroVenda();
-		registro.setUsuario(usuario);
-		registro.setItens(carrinho);
-		
-		iRegistroVenda.adiciona(registro);
-		
-		carrinho.clear();*/
 		return true;
 	}
 
