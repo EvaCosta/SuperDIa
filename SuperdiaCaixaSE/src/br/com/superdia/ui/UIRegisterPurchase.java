@@ -148,7 +148,7 @@ public class UIRegisterPurchase extends JDialog {
 			cartBean = Singleton.getICarrinho();
 		} catch (Exception e) {
 			e.printStackTrace();
-			PopupMessage.messageError(Messages.ERROR_REGISTER_PURCHASE_EJB, Constants.REGISTER_PURCHASE);
+			PopupMessage.messageError(Messages.ERROR_REGISTER_PURCHASE_EJB, Constants.REGISTER_PURCHASE_TITLE);
 			dispose();
 		}		
 	}

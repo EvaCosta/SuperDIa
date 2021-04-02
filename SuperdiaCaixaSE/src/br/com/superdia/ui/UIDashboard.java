@@ -31,6 +31,7 @@ import br.com.superdia.controller.Singleton;
 import br.com.superdia.es.PopupMessage;
 import br.com.superdia.modelo.ItemCarrinho;
 import br.com.superdia.modelo.RegistroVenda;
+import br.com.superdia.sessionbeans.IProduto;
 import br.com.superdia.sessionbeans.IRegistroVenda;
 
 public class UIDashboard extends JDialog {
@@ -143,14 +144,34 @@ public class UIDashboard extends JDialog {
 	}
 
 	private void signOut() {
-		dispose();
-		new UILogin();
+		int confirmation = PopupMessage.questionConfirmationDialog(Messages.CONFIRMATION_EXIT, Constants.APPLICATION_NAME);
+		if(confirmation == 0) {
+			dispose();
+			new UILogin();
+		}
 	}
 	
 	private void registerNewPruchase() {
-		new UIRegisterPurchase(this);
+		if(checkHasProducts()) new UIRegisterPurchase(this);
 		initTable(dtmPurchases);
 	}
+	
+	private boolean checkHasProducts() {
+		try {
+			IProduto productBean = Singleton.getIProduto();
+			if(productBean.lista().size() == 0) {
+				PopupMessage.messageError(Messages.HAS_NO_PRODUCTS_REGISTRED, Constants.DASHBOARD_TITLE);
+				return false;
+			}
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			PopupMessage.messageError(Messages.ERROR_LOAD_PRODUCTS_EJB, Constants.DASHBOARD_TITLE);
+			return false;
+		}
+	}
+	
 	
 	private void cleanTable(DefaultTableModel dtm){
 		int size = dtm.getDataVector().size();
