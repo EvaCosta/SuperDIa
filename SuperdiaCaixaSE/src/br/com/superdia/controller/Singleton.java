@@ -5,6 +5,7 @@ import javax.naming.NamingException;
 
 import br.com.superdia.sessionbeans.ICarrinho;
 import br.com.superdia.sessionbeans.IProduto;
+import br.com.superdia.sessionbeans.IRegistroVenda;
 import br.com.superdia.sessionbeans.IUsuario;
 
 public class Singleton {
@@ -28,5 +29,9 @@ public class Singleton {
 	
 	public static ICarrinho getICarrinho() throws NamingException {
 		return (ICarrinho) ic.lookup(Constants.EJB_LOOKUP_CART);
+	}
+	
+	public static IRegistroVenda getIRegistroVenda() throws NamingException {
+		return (IRegistroVenda) ic.lookup(Constants.EJB_LOOKUP_REGISTER_PURCHASE);
 	}
 }

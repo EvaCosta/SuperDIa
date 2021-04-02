@@ -1,6 +1,7 @@
 package br.com.superdia.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -8,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.naming.NamingException;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -26,7 +26,6 @@ import br.com.superdia.controller.Singleton;
 import br.com.superdia.es.PopupMessage;
 import br.com.superdia.modelo.Usuario;
 import br.com.superdia.sessionbeans.IUsuario;
-import java.awt.Color;
 
 public class UILogin extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -102,13 +101,13 @@ public class UILogin extends JDialog {
 	private void signIn() {
 		lblError.setText("");
 		try {
-			IUsuario usuarioBean = Singleton.getIUsuario();
+			IUsuario userBean = Singleton.getIUsuario();
 			Usuario user = new Usuario();
 		
 			user.setUsuario(loginInput.getText());
 			user.setSenha(new String(passwdInput.getPassword()).trim());
 			
-			user = usuarioBean.login(user);
+			user = userBean.login(user);
 			
 			if(user != null && user.getPerfil().equalsIgnoreCase("caixa")) {				
 				dispose();

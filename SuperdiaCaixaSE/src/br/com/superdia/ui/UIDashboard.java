@@ -8,8 +8,10 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -24,7 +26,12 @@ import javax.swing.table.DefaultTableModel;
 
 import br.com.superdia.SuperDiaCaixa;
 import br.com.superdia.controller.Constants;
-import javax.swing.JButton;
+import br.com.superdia.controller.Messages;
+import br.com.superdia.controller.Singleton;
+import br.com.superdia.es.PopupMessage;
+import br.com.superdia.modelo.ItemCarrinho;
+import br.com.superdia.modelo.RegistroVenda;
+import br.com.superdia.sessionbeans.IRegistroVenda;
 
 public class UIDashboard extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -108,20 +115,31 @@ public class UIDashboard extends JDialog {
 	}
 
 	private void initTable(DefaultTableModel dtm) {
-		/*
-		List<Musica> playlist = usuarioBean.listarPlaylist();
-		String playlistData[][] = new String[playlist.size()][3];
-		
-		for (int i = 0, j = 0; i < playlist.size(); i++) {
-			playlistData[j][0] = String.valueOf(playlist.get(i).getNome());
-			playlistData[j][1] = String.valueOf(playlist.get(i).getArtista());
-			playlistData[j][2] = String.valueOf(playlist.get(i).getLocalizacao());
-			j++;
+		IRegistroVenda registerBean;
+		try {
+			cleanTable(dtm);
+			registerBean = Singleton.getIRegistroVenda();
+			List<RegistroVenda> registers = registerBean.lista();
+			String registersData[][] = new String[registers.size()][3];
+			
+			for (int i = 0, j = 0; i < registers.size(); i++) {
+				registersData[j][0] = String.valueOf(registers.get(i).getId());
+				registersData[j][1] = String.valueOf(registers.get(i).getUsuario());
+				
+				double total = 0;
+				List<ItemCarrinho> productsPurchase = registers.get(i).getItens(); 
+				for (int k = 0; k < productsPurchase.size(); k++) {
+					total += productsPurchase.get(k).getProduto().getPreco() * productsPurchase.get(k).getQuantidade();
+				}
+				
+				registersData[j++][2] = String.valueOf(total);
+			}
+			
+			dtm.setDataVector(registersData, Constants.COLUMNS_PURCHASE_TABLE);
+		} catch (Exception e) {
+			PopupMessage.messageError(Messages.ERROR_LOAD_REGISTERS_PURCHASE, Constants.DASHBOARD_TITLE);
+			e.printStackTrace();
 		}
-		
-		dtmPlaylist.setDataVector(playlistData, Constantes.COLUNAS_MUSICAS);
-		*/
-		cleanTable(dtm);
 	}
 
 	private void signOut() {
@@ -131,6 +149,7 @@ public class UIDashboard extends JDialog {
 	
 	private void registerNewPruchase() {
 		new UIRegisterPurchase(this);
+		initTable(dtmPurchases);
 	}
 	
 	private void cleanTable(DefaultTableModel dtm){

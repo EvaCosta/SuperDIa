@@ -9,6 +9,7 @@ public class Constants {
 	public static final String EJB_LOOKUP_USER = "ejb:SuperDiaEAR/SuperDia/UsuarioBean!br.com.superdia.sessionbeans.IUsuario";
 	public static final String EJB_LOOKUP_PRODUCT = "ejb:SuperDiaEAR/SuperDia/ProdutoBean!br.com.superdia.sessionbeans.IProduto";
 	public static final String EJB_LOOKUP_CART = "ejb:SuperDiaEAR/SuperDia/CarrinhoBean!br.com.superdia.sessionbeans.ICarrinho?stateful";
+	public static final String EJB_LOOKUP_REGISTER_PURCHASE = "ejb:SuperDiaEAR/SuperDia/RegistroVendaBean!br.com.superdia.sessionbeans.IRegistroVenda";
 	
 	// TITLE UI
 	public static final String APPLICATION_NAME = "Superdia Caixa";
@@ -29,7 +30,7 @@ public class Constants {
 	public static final String BUTTON_SIGN_IN = "Entrar";
 	
 	// DASHBOARD
-	public static final String[] COLUMNS_PURCHASE_TABLE = {"Nome", "Caixa", "Preço", "Status"};
+	public static final String[] COLUMNS_PURCHASE_TABLE = {"Nome", "Caixa", "Preço"};
 	public static final String MENU = "Menu";
 	public static final String EXIT = "Sair";
 	public static final String SUPER_DIA_MENU = "Superdia";
@@ -38,8 +39,10 @@ public class Constants {
 	// REGISTER PURCHASE
 	public static final String[] COLUMNS_PRODUCTS_AVAILABLE_TABLE = {"ID", "Produto", "Descrição", "Quantidade", "Quantidade em Estoque", "Preço"};
 	public static final String[] COLUMNS_PRODUCTS_PURCHASE_TABLE = {"Produto", "Descrição", "Quantidade", "Valor", "Valor Total"};
-	public static final String AMOUNT = "Quantidade";
+	public static final String ADD_CART = "Adicionar";
 	public static final String AVAILABLE_PRODUCTS = "Produtos disponíveis";
-	public static final String SAVE_PURCHASE = "Salvar";
+	public static final String SAVE_PURCHASE = "Registrar compra";
 	public static final String BACK_DASHBOARD = "Voltar";
+	public static final String PRODUCTS_ON_CART = "Produtos no carrinho";
+	public static final String SELECTED_PRODUCT = "Produto selecionado";
 } 
