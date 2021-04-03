@@ -33,8 +33,8 @@ class ClientTests {
 	void loginClientSuccessfull() throws NamingException {
 		IServicosCliente servicosClient = (IServicosCliente)ic.lookup("ejb:SuperDiaEAR/SuperDia/ServicosClienteBean!br.com.superdia.sessionbeans.IServicosCliente?stateful");
 		Usuario usuario = new Usuario();
-		usuario.setSenha("123456");
-		usuario.setUsuario("caixa1");
+		usuario.setSenha("user");
+		usuario.setUsuario("user");
 		usuario = servicosClient.autentica(usuario);
 		Assert.assertNotNull(usuario);
 	}
