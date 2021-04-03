@@ -9,6 +9,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.List;
 
@@ -60,6 +62,13 @@ public class UIRegisterPurchase extends JDialog {
 		initTableProducts(dtmProduct, Constants.COLUMNS_PRODUCTS_AVAILABLE_TABLE);
 		initTableCart(dtmCart, Constants.COLUMNS_PRODUCTS_PURCHASE_TABLE);
 		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Singleton.closeSession();
+			}
+		});
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(UILogin.class.getResource(Constants.FAVICON)));
 		setTitle(Constants.REGISTER_PURCHASE_TITLE);
 		setSize(new Dimension(727, 795));
@@ -101,7 +110,8 @@ public class UIRegisterPurchase extends JDialog {
 		jtProducts = new JTable(dtmProduct) {
 			private static final long serialVersionUID = 1L;
 			public boolean editCellAt(int row, int column, java.util.EventObject e) {
-				setProductSelected(serivcesClientBean.listaProdutos().get(row));
+				long id = Long.valueOf(jtProducts.getModel().getValueAt(row, 0).toString());
+				setProductSelected(serivcesClientBean.buscaProdutoPorId(id));
 				return false;
 			}
 		};
@@ -179,6 +189,11 @@ public class UIRegisterPurchase extends JDialog {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 	
 		JButton btnSave = new JButton(Constants.SAVE_PURCHASE);
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				registerPurchase();
+			}
+		});
 		buttonPane.add(btnSave);
 		getRootPane().setDefaultButton(btnSave);
 
@@ -200,17 +215,34 @@ public class UIRegisterPurchase extends JDialog {
 		setVisible(true);
 	}
 
+	private void registerPurchase() {
+		serivcesClientBean.finalizaCompra(Singleton.getUser());
+		updateTable();
+	}
+
 	private void removeProduct() {
 		int index = jtCart.getSelectedRow();
 		if(index != -1) {
 			List<ItemCarrinho> cartProducts = serivcesClientBean.listaItensCarrinho();
 			serivcesClientBean.removeItemCarrinho(cartProducts.get(index));
 		}
+		initTableCart(dtmCart, Constants.COLUMNS_PRODUCTS_PURCHASE_TABLE);
+	}
+	
+	private void cancel() {
+		int confirmation = PopupMessage.questionConfirmationDialog(Messages.CONFIRMATION_CANCEL_PURCHASE, Constants.REGISTER_PURCHASE_TITLE);
+		if(confirmation == 0) {
+			List<ItemCarrinho> itemsCart = serivcesClientBean.listaItensCarrinho(); 
+			for (int i = 0; i < itemsCart.size(); i++) serivcesClientBean.removeItemCarrinho(itemsCart.get(i));
+		}
+		
+		initTableCart(dtmCart, Constants.COLUMNS_PRODUCTS_PURCHASE_TABLE);
 	}
 
 	private void addToCart() {
 		ItemCarrinho itemCart = new ItemCarrinho();
-		int amount = Integer.parseInt(spinnerAmount.getValue().toString().substring(0, spinnerAmount.getValue().toString().indexOf('.')));
+		int amount = Integer.parseInt(spinnerAmount.getValue().toString().substring(0, spinnerAmount.getValue().toString().lastIndexOf('.')).replace(".", ""));
+		if(amount == 0) return;
 		
 		itemCart.setProduto(productSelected);
 		itemCart.setQuantidade(amount);
@@ -224,6 +256,7 @@ public class UIRegisterPurchase extends JDialog {
 		int confirmation = PopupMessage.questionConfirmationDialog(Messages.CONFIRMATION_EXIT, Constants.APPLICATION_NAME);
 		if(confirmation == 0) {
 			dispose();
+			Singleton.closeSession();
 			new UILogin();
 		}
 	}
@@ -261,6 +294,7 @@ public class UIRegisterPurchase extends JDialog {
 		cleanTable(dtm, columns);
 		
 		List<ItemCarrinho> cartItems = serivcesClientBean.listaItensCarrinho();
+	
 		String cartData[][] = new String[cartItems.size()][columns.length];
 		
 		for (int row = 0, column = 0; row < cartItems.size(); column = 0, row++) {
@@ -272,17 +306,6 @@ public class UIRegisterPurchase extends JDialog {
 		}
 		
 		dtm.setDataVector(cartData, columns);
-
-	}
-
-	private void cancel() {
-		int confirmation = PopupMessage.questionConfirmationDialog(Messages.CONFIRMATION_CANCEL_PURCHASE, Constants.REGISTER_PURCHASE_TITLE);
-		if(confirmation == 0) {
-			List<ItemCarrinho> itemsCart = serivcesClientBean.listaItensCarrinho(); 
-			for (int i = 0; i < itemsCart.size(); i++) serivcesClientBean.removeItemCarrinho(itemsCart.get(i));
-		}
-		
-		initTableCart(dtmCart, Constants.COLUMNS_PRODUCTS_PURCHASE_TABLE);
 	}
 	
 	private void tryLoadEJB() {
@@ -308,5 +331,11 @@ public class UIRegisterPurchase extends JDialog {
 		}
 		
 		dtm.setDataVector(data, columns);
+	}
+	
+	private void updateTable() {
+		initTableProducts(dtmProduct, Constants.COLUMNS_PRODUCTS_AVAILABLE_TABLE);
+		initTableCart(dtmCart, Constants.COLUMNS_PRODUCTS_PURCHASE_TABLE);
+		productSelected = null;
 	}
 }

@@ -109,8 +109,9 @@ public class UILogin extends JDialog {
 			user.setSenha(new String(passwdInput.getPassword()).trim());
 			
 			user = serivcesClientBean.autentica(user);
-			
-			if(user != null && user.getPerfil() == PerfilUsuario.CAIXA) {				
+
+			if(user != null && user.getPerfil() == PerfilUsuario.CAIXA) {
+				Singleton.setUser(user);
 				dispose();
 				new UIRegisterPurchase(this);
 			} else {
