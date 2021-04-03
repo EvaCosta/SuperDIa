@@ -3,8 +3,11 @@ package br.com.superdia.ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,29 +18,34 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import br.com.superdia.controller.ProductController;
-import br.com.superdia.controller.User;
-import br.com.superdia.controller.UserController;
+import br.com.superdia.controller.ProdutoController;
+import br.com.superdia.controller.UsuarioController;
+import br.com.superdia.controller.VendasController;
+import br.com.superdia.modelo.Usuario;
 
 public class UILogin extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JPasswordField passwordTextField;
 	
-	private UserController userController;
-	private ProductController productController;
+	private UsuarioController userController;
+	private ProdutoController productController;
+	private VendasController vendasController;
 	
-	public UILogin(UserController userController, ProductController productController) {
+	public UILogin(UsuarioController userController, ProdutoController productController, 
+			VendasController vendasController) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UILogin.class.getResource("/assets/favicon-32x32.png")));
 		
 		this.productController = productController;
 		this.userController = userController;
+		this.vendasController = vendasController;
 		
 		setResizable(false);
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel = new JLabel("Bem-vindo");
+		JLabel lblNewLabel = new JLabel("Bem-vindo(a)");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(lblNewLabel, BorderLayout.NORTH);
@@ -47,23 +55,49 @@ public class UILogin extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("Login");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_1.setBounds(63, 37, 46, 14);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Senha");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_2.setBounds(63, 72, 46, 14);
 		panel.add(lblNewLabel_2);
 		
 		textField = new JTextField();
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		textField.setBounds(130, 34, 122, 20);
 		panel.add(textField);
 		textField.setColumns(10);
 		
+		textField.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					
+					login();
+				}
+			}
+		});
+		
 		passwordTextField = new JPasswordField();
+		passwordTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		passwordTextField.setBounds(130, 69, 122, 20);
+		
+		passwordTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					
+					login();
+				}
+			}
+		});
 		panel.add(passwordTextField);
 		
 		JButton btnNewButton = new JButton("Acessar");
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				login();
@@ -79,12 +113,20 @@ public class UILogin extends JFrame {
 
 	private void login() {
 		
-		User user = new User();
-		user.setUsername(textField.getText());
-		user.setPassword(String.valueOf(passwordTextField.getPassword()));
+		Usuario user = new Usuario();
+		user.setUsuario(textField.getText());
+		user.setSenha(String.valueOf(passwordTextField.getPassword()));
+		
+		
 		
 		if(userController.login(user)) {
-			new UIPrincipal(productController);
+			
+			UIEstoque estoque = new UIEstoque(productController);
+			UIVendas vendas = new UIVendas(vendasController);
+			
+			estoque.setUiVendas(vendas);
+			vendas.setUiEstoque(estoque);
+
 			dispose();
 		}
 		
