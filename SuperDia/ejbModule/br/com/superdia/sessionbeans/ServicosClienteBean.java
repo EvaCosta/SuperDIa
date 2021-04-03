@@ -61,7 +61,19 @@ public class ServicosClienteBean implements IServicosCliente{
 	@Override
 	public boolean removeItemCarrinho(ItemCarrinho item) {
 		checkSession();
-		return carrinho.remove(item);
+		ItemCarrinho car = null;
+		
+		for (ItemCarrinho itemCarrinho : carrinho) {
+			if (itemCarrinho.getProduto().getId().equals(item.getProduto().getId()) ) {
+				car = itemCarrinho;
+				break;
+			}
+		}
+		
+		if (car != null) {
+			return carrinho.remove(car);
+		}
+		return false;
 	}
 
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Sucesso</title>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+
+<h:body>
+	<div id="conteudo">
+	<h:form>
+		<h:outputText value="Logado como: #{usuarioMB.userLogado.usuario} "
+			rendered="#{not empty usuarioMB.userLogado.usuario}"/>
+		<h:commandLink action="#{usuarioMB.logout}" value="Sair"/> |
+		<h:commandLink action="#{usuarioMB.menu}" value="Menu"/> 
+		
+		<br/><br/><br/>
+		<h3>
+			<h:outputText value="COMPRA REALIZADA COM SUCESSO"/>
+		</h3>
+	</h:form>
+						
+
+	</div>
+</h:body>
+</html>
