@@ -216,7 +216,12 @@ public class UIRegisterPurchase extends JDialog {
 	}
 
 	private void registerPurchase() {
-		serivcesClientBean.finalizaCompra(Singleton.getUser());
+		int confirmation = PopupMessage.questionConfirmationDialog(Messages.CONFIRMATION_PURCHASE, Constants.REGISTER_PURCHASE_TITLE);
+		
+		if(confirmation == 0) {			
+			boolean success = serivcesClientBean.finalizaCompra(Singleton.getUser());
+			if(success) PopupMessage.messageInformation(Messages.SUCCESS_PURCHASE, Constants.REGISTER_PURCHASE_TITLE);
+		}
 		updateTable();
 	}
 
@@ -264,7 +269,7 @@ public class UIRegisterPurchase extends JDialog {
 	private void setProductSelected(Produto produto) {
 		productSelected = produto;
 		tfSelected.setText(productSelected.getNome());
-		spinnerAmountModel = new SpinnerNumberModel(0, 0, produto.getQuantidadeEstoque().doubleValue(), 1);
+		spinnerAmountModel = new SpinnerNumberModel(0, 0, produto.getQuantidadeEstoque().doubleValue() < 0 ? 0 : produto.getQuantidadeEstoque().doubleValue(), 1);
 		spinnerAmount.setModel(spinnerAmountModel);
 	}
 
