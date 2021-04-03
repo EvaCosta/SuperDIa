@@ -1,4 +1,4 @@
-package com.prova.resources;
+package com.superdia.resources;
 
 import static org.junit.jupiter.api.Assertions.*;
 
