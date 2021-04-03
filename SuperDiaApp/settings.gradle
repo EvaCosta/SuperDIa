@@ -1,0 +1,3 @@
+include ':jboss-client'
+include ':app'
+rootProject.name = "SuperDiaAPP"
