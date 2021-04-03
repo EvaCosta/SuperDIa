@@ -10,7 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity
-public class ItemCarrinho implements Serializable{
+public class ItemCarrinho implements Serializable {
 
 	/**
 	 * 
@@ -28,6 +28,8 @@ public class ItemCarrinho implements Serializable{
 	@OneToOne
 	private Produto produto;
 	
+	private Double preco;
+	
 	private Integer quantidade;
 	
 	public Produto getProduto() {
@@ -42,6 +44,33 @@ public class ItemCarrinho implements Serializable{
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
 	}
-	
-	
+	public Double getPreco() {
+		return preco;
+	}
+	public void setPreco(Double preco) {
+		this.preco = preco;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((produto == null) ? 0 : produto.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ItemCarrinho other = (ItemCarrinho) obj;
+		if (produto == null) {
+			if (other.produto != null)
+				return false;
+		} else if (!produto.equals(other.produto))
+			return false;
+		return true;
+	}
 }
