@@ -4,9 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class ListaProdutosActivity extends AppCompatActivity {
+public class ListaProdutosActivity extends ArrayAdapter<Page {
 
-      ListView list;
+    ListView list;
     private Activity activity;
     private List<Page> pagesList;
     private static LayoutInflater inflater = null;
