@@ -10,10 +10,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
 
 import br.com.superdia.modelo.ItemCarrinho;
 import br.com.superdia.modelo.Produto;
@@ -98,31 +94,10 @@ public class ServicosClienteBean implements IServicosCliente{
 		return carrinho;
 	}
 	
-	@Override
-	public boolean validaCartao(String cardNumber) {
-		try {
-			
-			Client client = ClientBuilder.newClient();
-			String urlCep = "https://secure.ftipgw.com/ArgoFire/validate.asmx/ValidMod10?CardNumber=" + cardNumber;
-			WebTarget target = client.target(urlCep);
-			Response response = target.request().get();
-			Boolean resp = Boolean.valueOf(response.readEntity(String.class));
-
-			return resp != null && resp.booleanValue();
-			
-		}catch (Exception e) {
-			return false;
-		}
-		
-	}
 
 	@Override
-	public boolean finalizaCompra(String cardNumber) {
+	public boolean finalizaCompra() {
 		checkSession();
-		
-		if (!validaCartao(cardNumber)) {
-			return false;
-		}
 		
 		//Verifica se todos os itens tem a quantidade necessária em estoque
 		for(ItemCarrinho item: carrinho) {
@@ -142,7 +117,14 @@ public class ServicosClienteBean implements IServicosCliente{
 		
 		RegistroVenda registro = new RegistroVenda();
 		registro.setUsuario(usuarioLogado);
-		registro.setItens(carrinho);
+		
+		ArrayList<ItemCarrinho> af = new ArrayList<ItemCarrinho>();
+		
+		for (ItemCarrinho itemCarrinho : carrinho) {
+			af.add(itemCarrinho);
+		}
+		
+		registro.setItens(af);
 		
 		em.persist(registro);
 		

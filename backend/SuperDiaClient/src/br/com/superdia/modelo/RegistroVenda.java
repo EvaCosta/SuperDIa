@@ -3,6 +3,7 @@ package br.com.superdia.modelo;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,14 +25,14 @@ public class RegistroVenda implements Serializable{
 	@SequenceGenerator(name = "registro_venda_id",
 			sequenceName = "registro_venda_seq",
 			allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, 
 			generator = "registro_venda_id")
 	private Long id;
 	
 	@OneToOne
 	private Usuario usuario;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<ItemCarrinho> itens;
 
 	public Long getId() {

@@ -88,4 +88,23 @@ class ClientTests {
 		
 		Assert.assertTrue(list.size() == 0);
 	}
+	
+	@Test
+	void clientFinalizaCompra() throws NamingException {
+		IServicosCliente servicosClient = (IServicosCliente)ic.lookup("ejb:SuperDiaEAR/SuperDia/ServicosClienteBean!br.com.superdia.sessionbeans.IServicosCliente?stateful");
+		Usuario usuario = new Usuario();
+		usuario.setSenha("123456");
+		usuario.setUsuario("caixa1");
+		usuario = servicosClient.autentica(usuario);
+		Produto prod = servicosClient.listaProdutos().get(0);
+		ItemCarrinho car = new ItemCarrinho();
+		car.setQuantidade(1);
+		car.setProduto(prod);
+		servicosClient.adicionaItemCarrinho(car);
+		List<ItemCarrinho> list = servicosClient.listaItensCarrinho();
+		Assert.assertNotNull(list);
+		Assert.assertTrue(servicosClient.listaItensCarrinho().size() > 0);
+		
+		servicosClient.finalizaCompra();
+	}
 }

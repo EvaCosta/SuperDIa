@@ -14,6 +14,5 @@ public interface IServicosCliente {
 	List<ItemCarrinho> listaItensCarrinho();
 	List<Produto> listaProdutos();
 	Produto buscaProdutoPorId(Long id);
-	boolean finalizaCompra(String cardNumber);
-	boolean validaCartao(String cardNumber);
+	boolean finalizaCompra();
 }
