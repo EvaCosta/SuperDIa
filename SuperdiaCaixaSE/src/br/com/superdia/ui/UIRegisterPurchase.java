@@ -219,7 +219,7 @@ public class UIRegisterPurchase extends JDialog {
 		int confirmation = PopupMessage.questionConfirmationDialog(Messages.CONFIRMATION_PURCHASE, Constants.REGISTER_PURCHASE_TITLE);
 		
 		if(confirmation == 0) {			
-			boolean success = serivcesClientBean.finalizaCompra(Singleton.getUser());
+			boolean success = serivcesClientBean.finalizaCompra();
 			if(success) PopupMessage.messageInformation(Messages.SUCCESS_PURCHASE, Constants.REGISTER_PURCHASE_TITLE);
 		}
 		updateTable();
