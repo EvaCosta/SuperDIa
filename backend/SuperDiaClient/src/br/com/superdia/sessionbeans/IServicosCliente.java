@@ -15,4 +15,5 @@ public interface IServicosCliente {
 	List<Produto> listaProdutos();
 	Produto buscaProdutoPorId(Long id);
 	boolean finalizaCompra();
+	boolean adicionaUsuario(Usuario usuario);
 }

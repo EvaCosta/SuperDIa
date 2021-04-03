@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.ws.rs.NotAuthorizedException;
 
 import br.com.superdia.modelo.ItemCarrinho;
+import br.com.superdia.modelo.PerfilUsuario;
 import br.com.superdia.modelo.Produto;
 import br.com.superdia.modelo.RegistroVenda;
 import br.com.superdia.modelo.Usuario;
@@ -156,5 +157,23 @@ public class ServicosClienteBean implements IServicosCliente{
 	@Override
 	public Produto buscaProdutoPorId(Long id) {
 		return em.find(Produto.class, id);
+	}
+	
+	@Override
+	public boolean adicionaUsuario(Usuario usuario){
+        try {
+            Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.usuario = :pUsuario");
+            q.setParameter("pUsuario", usuario.getUsuario());
+            Usuario usuarioExistente = (Usuario) q.getSingleResult();
+            if(usuarioExistente == null) {
+                usuario.setPerfil(PerfilUsuario.CLIENTE);
+                em.persist(usuario);
+                return true;
+            }else {
+                return false;
+            }
+        }catch (Exception e) {
+            return false;
+        }
 	}
 }

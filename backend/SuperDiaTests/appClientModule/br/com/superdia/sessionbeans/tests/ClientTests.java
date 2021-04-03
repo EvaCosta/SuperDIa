@@ -2,6 +2,7 @@ package br.com.superdia.sessionbeans.tests;
 
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -106,5 +107,16 @@ class ClientTests {
 		Assert.assertTrue(servicosClient.listaItensCarrinho().size() > 0);
 		
 		servicosClient.finalizaCompra();
+	}
+	
+	@Test
+	void clientCadastro() throws NamingException {
+		IServicosCliente servicosClient = (IServicosCliente)ic.lookup("ejb:SuperDiaEAR/SuperDia/ServicosClienteBean!br.com.superdia.sessionbeans.IServicosCliente?stateful");
+		Usuario usuario = new Usuario();
+		usuario.setSenha("123456");
+		usuario.setUsuario(UUID.randomUUID().toString());
+		servicosClient.adicionaUsuario(usuario);
+		
+		usuario = servicosClient.autentica(usuario);
 	}
 }
