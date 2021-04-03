@@ -21,8 +21,8 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.message.internal.HttpHeaderReader;
 
-import com.prova.controller.Singleton;
 import com.sun.tools.rngom.util.Uri;
+import com.superdia.controller.Singleton;
 
 import br.com.superdia.modelo.ItemCarrinho;
 import br.com.superdia.modelo.Produto;
@@ -74,7 +74,6 @@ public class IServicoCliente {
 	public boolean finalizaCompra() throws NamingException {
 		return Singleton.getIServicosCliente().finalizaCompra("asdf");
 	}
-	
 	
 	
 }

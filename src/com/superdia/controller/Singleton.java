@@ -1,4 +1,4 @@
-package com.prova.controller;
+package com.superdia.controller;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;

@@ -10,9 +10,9 @@ import javax.naming.NamingException;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import com.prova.controller.Constants;
-import com.prova.controller.Singleton;
 import com.sun.net.httpserver.HttpServer;
+import com.superdia.controller.Constants;
+import com.superdia.controller.Singleton;
 
 
 
@@ -20,14 +20,9 @@ public class Publicador {
 	
 
 	public static void main(String[] args) {
-		ResourceConfig rc = new ResourceConfig().packages(new String[] {"com.prova.resources"});
+		ResourceConfig rc = new ResourceConfig().packages(new String[] {"com.superdia.resources"});
 		HttpServer httpServer = JdkHttpServerFactory.createHttpServer(URI.create("http://localhost:8081/"), rc);
 		System.out.println("Servidor escutando em http://localhost:8081");
-		System.out.println("Endpoints disponíveis: ");
-		System.out.println("GET /Livros -> Lista todos os livros");
-		System.out.println("POST /Livros @FormParams(titulo, autor, isbn e quantidade, redirectTo)");
-		System.out.println("POST /Livros @FormParams(id, titulo, autor, isvn e quantidade, redirectTo)");
-		System.out.println("POST /Livros/delete @FormParams(id, redirectTo)");
 		
 		Properties props = new Properties();
 		props.put(Context.INITIAL_CONTEXT_FACTORY, Constants.INITIAL_CONTEXT_FACTORY);
