@@ -29,7 +29,13 @@
 				<h:inputText value="#{usuarioMB.usuario.usuario}"/>
 				<br/>
 				<h:outputLabel value="Senha: "/>
-				<h:inputText value="#{usuarioMB.usuario.senha}"/>
+				<h:inputSecret value="#{usuarioMB.usuario.senha}"/>
+				<h:outputLabel value="Perfil: "/>
+				<h:selectOneMenu value = "#{usuarioMB.perfil}"> 
+				   <f:selectItem itemValue = "Admin" itemLabel = "Administrador" /> 
+				   <f:selectItem itemValue = "Cliente" itemLabel = "Cliente" />
+				   <f:selectItem itemValue = "Caixa" itemLabel = "Caixa" /> 
+				</h:selectOneMenu> 	 
 				<br/><br/>
 				<h:commandButton value="Adicionar" action="#{usuarioMB.adiciona}">
 					<f:ajax execute="@form" render=":lista :cadastro"></f:ajax>
@@ -46,6 +52,11 @@
 					<h:column>
 						<f:facet name="header">Senha</f:facet>
 						<h:outputText value="#{usuario.senha}"/>
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">Perfil</f:facet>
+						<h:outputText value="#{usuario.perfil}"/>
 					</h:column>
 					
 					

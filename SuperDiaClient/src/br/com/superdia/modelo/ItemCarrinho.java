@@ -28,6 +28,8 @@ public class ItemCarrinho implements Serializable{
 	@OneToOne
 	private Produto produto;
 	
+	private Double preco;
+	
 	private Integer quantidade;
 	
 	public Produto getProduto() {
@@ -42,6 +44,10 @@ public class ItemCarrinho implements Serializable{
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
 	}
-	
-	
+	public Double getPreco() {
+		return preco;
+	}
+	public void setPreco(Double preco) {
+		this.preco = preco;
+	}
 }

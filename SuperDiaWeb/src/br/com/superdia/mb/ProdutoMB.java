@@ -7,7 +7,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import br.com.superdia.modelo.Produto;
-import br.com.superdia.sessionbeans.IProduto;
+import br.com.superdia.sessionbeans.IServicosAdmin;
+import br.com.superdia.sessionbeans.IServicosCliente;
 
 @ManagedBean(name = "produtoMB")
 @SessionScoped
@@ -15,7 +16,7 @@ public class ProdutoMB {
 	private Produto produto = new Produto();
 	private int qtdEstoque = 0;
 	@EJB
-	private IProduto produtoMB;
+	private IServicosAdmin produtoMB;
 	
 	private List<Produto> produtos;
 	
@@ -30,10 +31,10 @@ public class ProdutoMB {
 	public void grava() {
 		if(produto.getId() == null) {
 			System.out.println("Adicionando produtos...");
-			produtoMB.adiciona(produto);
+			produtoMB.adicionaProduto(produto);
 		}else {
 			System.out.println("Alterando produtos...");
-			produtoMB.altera(this.produto);
+			produtoMB.alteraProduto(this.produto);
 		}
 		this.produto = new Produto();
 	}
@@ -43,12 +44,12 @@ public class ProdutoMB {
 	}
 	
 	public List<Produto> getProdutos(){
-		return produtoMB.lista();
+		return produtoMB.listaProdutos();
 	}
 		
 	public void remove(Produto produto) {
 		System.out.println("Excluindo produtos...");
-		produtoMB.remove(produto);
+		produtoMB.removeProduto(produto);
 	}
 	
 	public void setProdutos(List<Produto> produtos) {

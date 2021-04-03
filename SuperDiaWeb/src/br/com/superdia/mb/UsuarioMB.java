@@ -7,17 +7,27 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import br.com.superdia.modelo.PerfilUsuario;
 import br.com.superdia.modelo.Usuario;
-import br.com.superdia.sessionbeans.IUsuario;
+import br.com.superdia.sessionbeans.IServicosAdmin;
 
 @ManagedBean(name = "usuarioMB")
 @SessionScoped
 public class UsuarioMB {
 	@EJB
-	private IUsuario usuarioMB;
+	private IServicosAdmin usuarioMB;
 	
+	public String getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(String perfil) {
+		this.perfil = perfil;
+	}
+
 	private Usuario usuario = new Usuario();
 	private Usuario userLogado;
+	private String perfil;
 	
 	public Usuario getUserLogado() {
 		return userLogado;
@@ -32,23 +42,31 @@ public class UsuarioMB {
 	}
 	
 	public ArrayList<Usuario> getUsuarios(){
-		return new ArrayList<Usuario>(this.usuarioMB.lista());
+		return new ArrayList<Usuario>(this.usuarioMB.listaUsuarios());
 	}
 	
 	public void adiciona() {
-		if (this.usuario.getId() == null)
-			this.usuarioMB.adiciona(this.usuario);
+		if (this.usuario.getId() == null) {
+			if (perfil.equals("Admin"))
+				this.usuario.setPerfil(PerfilUsuario.ADMIN);
+			if (perfil.equals("Caixa"))
+				this.usuario.setPerfil(PerfilUsuario.CAIXA);
+			if (perfil.equals("Cliente"))
+				this.usuario.setPerfil(PerfilUsuario.CLIENTE);
+			
+			this.usuarioMB.adicionaUsuario(this.usuario);
+		}
 		else
 			altera();
 		usuario = new Usuario();
 	}
 	
 	private void altera() {
-		this.usuarioMB.altera(this.usuario);
+		this.usuarioMB.alteraUsuario(this.usuario);
 	}
 
 	public void remove(Usuario usuario) {
-		this.usuarioMB.remove(usuario);
+		this.usuarioMB.removeUsuario(usuario);
 	}
 
 	public Usuario getUsuario() {
@@ -60,7 +78,7 @@ public class UsuarioMB {
 	}
 	
 	public String login() {
-		this.userLogado = usuarioMB.login(this.usuario);
+		this.userLogado = usuarioMB.autentica(this.usuario);
 		
 		if (this.userLogado != null) {
 			usuario = new Usuario();

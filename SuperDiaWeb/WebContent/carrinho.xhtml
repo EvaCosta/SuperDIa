@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Carrinho de Compras</title>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<body>
+	<div id="conteudo">
+		<h:form id="cadastro">
+			<div id="lista">
+			<h2>
+				<h:outputText value="Produtos Disponíveis"/>
+			</h2>
+				<h:dataTable value="#{produtoMB.produtos}" var="produto" styleClass="dados" rowClasses="impar,par">
+			<h:column>
+				<f:facet name="header">Nome</f:facet>
+				<h:outputText value="#{produto.nome}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Descrição</f:facet>
+				<h:outputText value="#{produto.descricao}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Preço</f:facet>
+				<h:outputText value="#{produto.preco}"/>
+			</h:column>
+		
+			<h:column>
+				<f:facet name="header">Estoque mínimo</f:facet>
+				<h:outputText value="#{produto.estoqueMinimo}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Quantidade em estoque</f:facet>
+				<h:outputText value="#{produto.quantidadeEstoque}"/>
+			</h:column>
+		
+			<h:column>
+				<f:facet name="header">Adicionar</f:facet>
+				<h:commandLink action="#{produtoMB.adicionaCarrinho(produto)}" value="Adicionar" styleClass="btn"/>
+			</h:column>
+			
+			<br/>
+			
+		</h:dataTable>		
+			</div>
+		</h:form>
+		
+			<h2>
+				<h:outputText value="Carrinho de Compras"/>
+			</h2>
+	</div>
+</body>
+</html>
