@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Produtos</title>
+	<h:outputStylesheet library="css" name="style.css" />
+	
+</h:head>
+
+<h:body>
+	<h:form id="cadastra">
+		<fieldset>
+			<h:outputLabel value="Nome do Produto: "/>
+			<h:inputText value="#{produtoMB.produto.nome}"/>
+			<br/>
+			<h:outputLabel value="Descrição: "/>
+			<h:inputText value="#{produtoMB.produto.descricao}"/>
+			<br/>
+			<h:outputLabel value="Preco:  "/>
+			<h:inputText value="#{produtoMB.produto.preco}"/>
+			<br/>
+			<h:outputLabel value="Estoque mínimo  "/>
+			<h:inputText value="#{produtoMB.produto.estoqueMinimo}"/>
+			<br/>
+			<h:outputLabel value="Quantidade em Estoque:  "/>
+			<h:inputText value="#{produtoMB.produto.quantidadeEstoque}"/>
+			<br/><br/>
+			
+			<h:commandButton action="#{produtoMB.grava}" value="Salvar"></h:commandButton>
+			<hr/>
+		</fieldset>
+		
+		
+		<div id="lista">
+			<h:outputLabel value="Produtos no carrinho:"></h:outputLabel>
+			<br /><br />
+			<h:dataTable value="#{produtoMB.produtos}" var="produto" styleClass="dados" rowClasses="impar,par">
+			<h:column>
+				<f:facet name="header">Nome</f:facet>
+				<h:outputText value="#{produto.nome}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Descrição</f:facet>
+				<h:outputText value="#{produto.descricao}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Preço</f:facet>
+				<h:outputText value="#{produto.preco}"/>
+			</h:column>
+		
+			<h:column>
+				<f:facet name="header">Estoque mínimo</f:facet>
+				<h:outputText value="#{produto.estoqueMinimo}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Quantidade em estoque</f:facet>
+				<h:outputText value="#{produto.quantidadeEstoque}"/>
+			</h:column>
+		
+			<h:column>
+				<f:facet name="header">Remover</f:facet>
+				<h:commandLink action="#{produtoMB.remove(produto)}" value="remove"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Alterar</f:facet>
+				<h:commandLink value="Alterar" styleClass="btn">
+					<f:setPropertyActionListener value="#{produto}" target="#{produtoMB.produto}" />
+					<f:ajax render=":cadastro"></f:ajax>
+				</h:commandLink>
+			</h:column>
+			<br/>
+			
+		</h:dataTable>		
+		</div>
+		
+		
+	</h:form>
+</h:body>
+</html>

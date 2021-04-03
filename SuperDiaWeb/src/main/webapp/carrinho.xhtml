@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Carrinho de Compras</title>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<body>
+	<div id="conteudo">
+		<h:form id="cadastro">
+			<div id="lista">
+			<h2>
+				<h:outputText value="Produtos Disponíveis"/>
+			</h2>
+				<h:dataTable value="#{usuarioMB.cliente.listaProdutos()}" var="produto" styleClass="dados" rowClasses="impar,par">
+			<h:column>
+				<f:facet name="header">Nome</f:facet>
+				<h:outputText value="#{produto.nome}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Descrição</f:facet>
+				<h:outputText value="#{produto.descricao}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Preço</f:facet>
+				<h:outputText value="#{produto.preco}"/>
+			</h:column>
+		
+			<h:column>
+				<f:facet name="header">Estoque mínimo</f:facet>
+				<h:outputText value="#{produto.estoqueMinimo}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Quantidade em estoque</f:facet>
+				<h:outputText value="#{produto.quantidadeEstoque}"/>
+			</h:column>
+		
+			<h:column>
+				<f:facet name="header">Adicionar</f:facet>
+				<h:commandLink action="#{produtoMB.adiciona(produto, usuarioMB.cliente)}" value="Adicionar" styleClass="btn">
+					
+				</h:commandLink>
+				
+			</h:column>
+			
+			<br/>
+			
+		</h:dataTable>		
+			</div>
+			
+			<div id="listacarrinho">
+				<h2>
+				<h:outputText value="Carrinho de Compras"/>
+				</h2>
+				<h:dataTable value="#{usuarioMB.cliente.listaItensCarrinho()}" var="item" styleClass="dados" rowClasses="impar,par">
+					<h:column>
+						<f:facet name="header">Nome</f:facet>
+						<h:outputText value="#{item.produto.nome}"/>
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">Descrição</f:facet>
+						<h:outputText value="#{item.produto.descricao}"/>
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">Preço</f:facet>
+						<h:outputText value="#{item.produto.preco}"/>
+					</h:column>	
+					
+					<h:column>
+						<f:facet name="header">Remover</f:facet>
+						<h:commandLink action="#{produtoMB.remove(item, usuarioMB.cliente)}" value="remove">
+							<f:ajax execute="@form" render=":listacarrinho"></f:ajax>
+						</h:commandLink>
+					</h:column>		
+				</h:dataTable>	
+				
+				<h:commandLink action="#{produtoMB.finaliza(usuarioMB.cliente, usuarioMB.userLogado)}" value="Finalizar compra" styleClass="btn">
+					
+				</h:commandLink>	
+			</div>
+			
+		</h:form>
+		
+			
+	</div>
+</body>
+</html>
